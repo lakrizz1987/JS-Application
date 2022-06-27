@@ -4,15 +4,20 @@ function attachEvents() {
 
     let selectElement = document.getElementById('posts');
 
-    loadBtnElement.addEventListener('click', loadPosts);
+    loadBtnElement.addEventListener('click', generate);
 
-    
+    function generate(){
+        let data = loadPosts()
+        console.log(data)
+    }
 
-    
 
 
 
-    
+
+
+
+
 }
 
 attachEvents();
@@ -23,7 +28,7 @@ async function loadPosts() {
     return data;
 }
 
-async function getCommentsByID(id){
+async function getCommentsByID(id) {
     let response = await fetch('http://localhost:3030/jsonstore/blog/comments');
     let data = await response.json();
     let array = Object.values(data).filter(x => x.id == id);
