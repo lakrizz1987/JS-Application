@@ -6,32 +6,40 @@ function attachEvents() {
 
     loadBtnElement.addEventListener('click', loadPosts);
 
-    async function loadPosts() {
-        let response = await fetch('http://localhost:3030/jsonstore/blog/posts');
-        let data = await response.json();
-        Object.keys(data).forEach(key => {
-            let option = create('option', `${data[key].title}`, selectElement);
-            option.value = `${key}`;
-        })
-    }
+    
 
     
 
 
 
-    function create(type, content, parent) {
-        let element = document.createElement(type);
-
-        if (content) {
-            element.textContent = content;
-        }
-
-        if (parent) {
-            parent.appendChild(element)
-        }
-
-        return element;
-    }
+    
 }
 
 attachEvents();
+
+async function loadPosts() {
+    let response = await fetch('http://localhost:3030/jsonstore/blog/posts');
+    let data = await response.json();
+    return data;
+}
+
+async function getCommentsByID(id){
+    let response = await fetch('http://localhost:3030/jsonstore/blog/comments');
+    let data = await response.json();
+    let array = Object.values(data).filter(x => x.id == id);
+    return array;
+}
+
+function create(type, content, parent) {
+    let element = document.createElement(type);
+
+    if (content) {
+        element.textContent = content;
+    }
+
+    if (parent) {
+        parent.appendChild(element)
+    }
+
+    return element;
+}
