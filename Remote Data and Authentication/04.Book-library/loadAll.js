@@ -1,15 +1,14 @@
-import { createBook } from "./createBook.js";
+
 
 export async function loadAll(e) {
     try {
         let response = await fetch('http://localhost:3030/jsonstore/collections/books');
         if (response.ok == false) {
             let error = await response.json();
-            throw new Error(error.message)
+            throw new Error(error.message);
         }
         let data = await response.json();
 
-        console.log(data)
         let tbody = document.querySelector('tbody');
         tbody.innerHTML = '';
         let i = 0;
@@ -51,7 +50,7 @@ function create(type, content, parent) {
 }
 
 async function deleteBook(e) {
-    let id = e.currentTarget.id
+    let id = e.currentTarget.id;
     try {
         let response = await fetch(`http://localhost:3030/jsonstore/collections/books/${id}`, {
             method: 'delete'
@@ -62,50 +61,22 @@ async function deleteBook(e) {
         }
         document.getElementById('loadBooks').click();
     } catch (err) {
-        alert(err.message)
+        alert(err.message);
     }
 
 }
 
 
-async function editBook(e) {
-    let id = e.currentTarget.id
+function editBook(e) {
+    document.getElementById('create').style.display = 'none';
+    document.getElementById('update').style.display = 'block';
+    localStorage.setItem('id', e.currentTarget.id);
     let parent = e.currentTarget.parentNode.parentNode;
     let title = parent.querySelector('td:nth-of-type(1)').textContent;
     let author = parent.querySelector('td:nth-of-type(2)').textContent;
 
-    let inputTitle = document.querySelector('input[name="title"]');
-    let inputAuthor = document.querySelector('input[name="author"]');
+    let inputTitle = document.querySelector('input[name="edit-title"]');
+    let inputAuthor = document.querySelector('input[name="edit-author"]');
     inputTitle.value = title;
     inputAuthor.value = author;
-
-    let h3Element = document.querySelector('form h3');
-    h3Element.textContent = 'Edit FORM';
-    let buttonElement = document.querySelector('form button');
-    buttonElement.textContent = 'Save';
-
-    let form = document.querySelector('form');
-    form.removeEventListener('submit', createBook);
-
-    let formData1 = new FormData(form);
-
-    let newTitle = formData1.get('title');
-    let newAuthor = formData1.get('author');
-
-    form.addEventListener('submit', update);
-
-    async function update(e) {
-        e.preventDefault();
-
-        try {
-            let response = await fetch(`http://localhost:3030/jsonstore/collections/books/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 'author': newAuthor, "title": newTitle })
-            })
-        } catch (err) {
-            alert(err.message)
-        }
-    }
 }
-
