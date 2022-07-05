@@ -22,8 +22,10 @@ export async function loadAll(e) {
             let delBtn = create('button', 'Delete', tdBtns);
             editBtn.id = Object.keys(data)[i];
             delBtn.id = Object.keys(data)[i];
-            
+
             i++;
+
+            delBtn.addEventListener('click', deleteBook);
         })
 
     } catch (err) {
@@ -43,4 +45,21 @@ function create(type, content, parent) {
     }
 
     return element;
+}
+
+async function deleteBook(e) {
+    let id = e.currentTarget.id
+    try {
+        let response = await fetch(`http://localhost:3030/jsonstore/collections/books/${id}`, {
+            method: 'delete'
+        });
+        if (response.ok == false) {
+            let dataErr = await response.json();
+            throw new Error(dataErr.message);
+        }
+        document.getElementById('loadBooks').click();
+    } catch (err) {
+        alert(err.message)
+    }
+
 }
