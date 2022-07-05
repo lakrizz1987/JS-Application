@@ -10,14 +10,20 @@ export async function loadAll(e) {
         console.log(data)
         let tbody = document.querySelector('tbody');
         tbody.innerHTML = '';
+        let i = 0;
 
         Object.values(data).forEach(obj => {
+
             let tr = create('tr', '', tbody);
             let tdBook = create('td', obj.title, tr);
             let tdAithot = create('td', obj.author, tr);
             let tdBtns = create('td', '', tr);
             let editBtn = create('button', 'Edit', tdBtns);
             let delBtn = create('button', 'Delete', tdBtns);
+            editBtn.id = Object.keys(data)[i];
+            delBtn.id = Object.keys(data)[i];
+            
+            i++;
         })
 
     } catch (err) {
