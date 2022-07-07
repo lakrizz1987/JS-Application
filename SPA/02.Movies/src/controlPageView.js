@@ -1,9 +1,12 @@
+import { loadAllMovies } from "./loadAllMovies.js";
+
 function showContent(section) {
     section.style.display = 'block';
 }
 
 function showHomePage() {
     let page = document.getElementById('home-page');
+    loadAllMovies()
     return page;
 }
 
