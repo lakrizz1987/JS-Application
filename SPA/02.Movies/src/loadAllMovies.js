@@ -2,7 +2,8 @@ export async function loadAllMovies(e) {
     let response = await fetch('http://localhost:3030/data/movies');
     let data = await response.json();
     let container = document.querySelector('#movie div.card-deck');
-
+    container.innerHTML = '';
+    
     Object.values(data).forEach(movie => {
         let div = document.createElement('div');
         div.className = 'card mb-4';

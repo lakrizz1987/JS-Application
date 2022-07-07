@@ -27,16 +27,8 @@ document.querySelector('#main-nav').addEventListener('click', (e) => {
 
 showContent(showHomePage());
 
-if (localStorage.user == null) {
-    document.getElementById('welcome-msg').textContent = 'Welcome';
-    document.querySelectorAll('li.user').forEach(x => x.style.display = 'none');
-    document.getElementById('addMovieA').style.display = 'none'
-} else {
-    let user = JSON.parse(localStorage.user)
-    document.getElementById('welcome-msg').textContent = `Welcome,${user.email}`;
-    document.querySelectorAll('li.guest').forEach(x => x.style.display = 'none');
-    document.getElementById('addMovieA').style.display = 'block'
-}
+
+
 document.querySelector('.btn-warning').addEventListener('click', showAddMovieForm)
 document.getElementById('login-form').addEventListener('submit',login)
 

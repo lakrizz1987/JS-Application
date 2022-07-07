@@ -24,6 +24,7 @@ export async function login(e) {
 
         let data = await response.json();
         localStorage.setItem('user',JSON.stringify(data));
+        document.querySelectorAll('.view-section').forEach(x => x.style.display = 'none');
         showContent(showHomePage())
     } catch (err) {
         alert(err.message)
