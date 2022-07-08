@@ -57,14 +57,6 @@ a.active {
     color: white;
 }
 
-#user {
-    display: none;
-}
-
-#guest {
-    display: none;
-}
-
-#views {
+section{
     display: none;
 }
