@@ -1,6 +1,10 @@
+import { createCatalog } from "./catalog.js";
+import { navButtonsRouter } from "./navBtnRouter.js";
 import { router } from "./router.js";
 
 navButtonsRouter();
+createCatalog();
+
 let sections = document.querySelectorAll('section');
 document.querySelector('#catalog').style.display = 'block';
 const navigation = document.querySelector('nav');
@@ -22,14 +26,4 @@ function hideSections() {
     Array.from(sections).forEach(x => x.style.display = 'none')
 };
 
-function navButtonsRouter() {
-    let user = JSON.parse(localStorage.getItem('user'));
-
-    if (user) {
-        Array.from(document.querySelectorAll('.guest')).forEach(btn => btn.style.display = 'none');
-        Array.from(document.querySelectorAll('.user')).forEach(btn => btn.style.display = 'inline-block');
-    } else {
-        Array.from(document.querySelectorAll('.guest')).forEach(btn => btn.style.display = 'inline-block');
-        Array.from(document.querySelectorAll('.user')).forEach(btn => btn.style.display = 'none');
-    }
-};
+navButtonsRouter()
