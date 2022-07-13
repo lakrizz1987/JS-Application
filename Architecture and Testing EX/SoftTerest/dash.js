@@ -6,24 +6,27 @@ let sectionDash = document.getElementById('dashboard-holder');
 export async function showDashboard(section) {
     sectionDash.innerHTML = '';
     let idea = await getData();
-
-    Array.from(idea).forEach(element => {
-        let div = document.createElement('div');
-        div.className = 'card overflow-hidden current-card details';
-        div.style.width = '20rem';
-        div.style.height = '18rem';
-        console.log(element)
-        div.innerHTML = `
-        <div class="card-body">
-                <p class="card-text">${element.title}</p>
-            </div>
-            <img class="card-image" src="${element.img}" alt="Card image cap">
-            <a class="btn" id ="${element._id}" href="">Details</a>
-        `;
-
-        sectionDash.appendChild(div);
-
-    });
+    if(idea.length < 1){
+        sectionDash.innerHTML = `<h1>No ideas yet! Be the first one :)</h1>`
+    }else{
+        Array.from(idea).forEach(element => {
+            let div = document.createElement('div');
+            div.className = 'card overflow-hidden current-card details';
+            div.style.width = '20rem';
+            div.style.height = '18rem';
+            div.innerHTML = `
+            <div class="card-body">
+                    <p class="card-text">${element.title}</p>
+                </div>
+                <img class="card-image" src="${element.img}" alt="Card image cap">
+                <a class="btn" id ="${element._id}" href="">Details</a>
+            `;
+    
+            sectionDash.appendChild(div);
+    
+        });
+    }
+    
     section.replaceChildren(sectionDash);
 
 }
