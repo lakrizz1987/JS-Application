@@ -1,7 +1,7 @@
 import { html, nothing } from "../node_modules/lit-html/lit-html.js";
 import { del, get } from "../src/api.js";
 
-const detailsTemplate = (book,isOwner,deleteHadler) => html`
+const detailsTemplate = (book,isOwner,deleteHadler,isLoged) => html`
      <section id="details-page" class="details">
             <div class="book-information">
                 <h3>${book.title}</h3>
@@ -18,7 +18,8 @@ const detailsTemplate = (book,isOwner,deleteHadler) => html`
 
                     <!-- Bonus -->
                     <!-- Like button ( Only for logged-in users, which is not creators of the current book ) -->
-                    <a class="button" href="#">Like</a>
+                    ${(isLoged() && !isOwner(book)) ? html`<a class="button" href="#">Like</a>`: nothing}
+                    
                     
                     
 
@@ -40,7 +41,7 @@ export const detailsView = async (ctx) => {
     
     let data = await get(`http://localhost:3030/data/books/${ctx.params.id}`)
     
-    ctx.render(detailsTemplate(data,isOwner,deleteHadler));
+    ctx.render(detailsTemplate(data,isOwner,deleteHadler,isLoged));
     
     function isOwner(album) {
         let user = JSON.parse(localStorage.getItem('user'));
@@ -50,6 +51,15 @@ export const detailsView = async (ctx) => {
             return false
         }
     };
+
+    function isLoged(){
+        let user = JSON.parse(localStorage.getItem('user'));
+        if(user){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     async function deleteHadler(e) {
         e.preventDefault()

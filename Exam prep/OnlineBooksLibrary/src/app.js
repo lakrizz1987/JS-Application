@@ -4,6 +4,7 @@ import { dashboardView } from "../views/dashboard.js";
 import { detailsView } from "../views/details.js";
 import { editView } from "../views/edit.js";
 import { loginView } from "../views/login.js";
+import { myBooksView } from "../views/mybooks.js";
 import { navView } from "../views/navigation.js";
 import { registerView } from "../views/register.js";
 import { renderMidleWare } from "./midlewares.js";
@@ -15,7 +16,8 @@ page('/login',loginView)
 page('/',dashboardView)
 page('/register',registerView);
 page('/add',addView);
-page('/edit/:id',editView)
+page('/edit/:id',editView);
+page('/mybooks',myBooksView);
 
 
 page.start();
