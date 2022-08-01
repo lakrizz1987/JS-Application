@@ -1,7 +1,7 @@
 import { html, nothing } from "../node_modules/lit-html/lit-html.js";
-import { get } from "../src/api.js";
+import { del, get } from "../src/api.js";
 
-const detailsTemplate = (book,isOwner) => html`
+const detailsTemplate = (book,isOwner,deleteHadler) => html`
      <section id="details-page" class="details">
             <div class="book-information">
                 <h3>${book.title}</h3>
@@ -10,8 +10,8 @@ const detailsTemplate = (book,isOwner) => html`
                 <div class="actions">
                     <!-- Edit/Delete buttons ( Only for creator of this book )  -->
                     ${isOwner(book) ? html`
-                    <a class="button" href="#">Edit</a>
-                    <a class="button" href="#">Delete</a> `
+                    <a class="button" href=${`/edit/${book._id}`}>Edit</a>
+                    <a class="button" id=${book._id} href="javascript:void(0)" @click=${deleteHadler}>Delete</a> `
                     :nothing
                     }
                     
@@ -40,7 +40,7 @@ export const detailsView = async (ctx) => {
     
     let data = await get(`http://localhost:3030/data/books/${ctx.params.id}`)
     
-    ctx.render(detailsTemplate(data,isOwner));
+    ctx.render(detailsTemplate(data,isOwner,deleteHadler));
     
     function isOwner(album) {
         let user = JSON.parse(localStorage.getItem('user'));
@@ -50,5 +50,19 @@ export const detailsView = async (ctx) => {
             return false
         }
     };
+
+    async function deleteHadler(e) {
+        e.preventDefault()
+        //let user = JSON.parse(localStorage.getItem('user'));
+        // let token = user.accessToken
+        let result = confirm("Are you sure you want to delete?")
+        if (result) {
+            let data = await del(`http://localhost:3030/data/books/${e.target.id}`);
+            ctx.page.redirect('/');
+        }
+    
+    }
   
 };
+
+
